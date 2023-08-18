@@ -1,0 +1,27 @@
+/* styles.css */
+
+/* Estilos para o corpo da página */
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Estilos para a página Home */
+  .App {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Garante que a página ocupe pelo menos 100% da altura da viewport */
+    background-color: #333; /* Cor de fundo escura */
+    color: white; /* Cor do texto */
+  }
+
+/* Estilos para a página Dashboard */
+.Dashboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f0f0f0; /* Cor de fundo mais clara */
+  color: #333; /* Cor do texto */
+}
