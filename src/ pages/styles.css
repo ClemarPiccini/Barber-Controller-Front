@@ -1,27 +1,59 @@
-/* styles.css */
-
-/* Estilos para o corpo da página */
 body {
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Estilos para a página Home */
-  .App {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh; /* Garante que a página ocupe pelo menos 100% da altura da viewport */
-    background-color: #333; /* Cor de fundo escura */
-    color: white; /* Cor do texto */
-  }
+  background-color: #fff;
+  font-family: sans-serif;
+  font-size: 16px;
 
-/* Estilos para a página Dashboard */
-.Dashboard {
   display: flex;
-  align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background-color: #f0f0f0; /* Cor de fundo mais clara */
-  color: #333; /* Cor do texto */
+  align-items: center;
+}
+
+h1 {
+  color: #333;
+  font-size: 24px;
+  margin-top: 0;
+}
+
+h2{
+  text-align:center ;
+}
+
+p {
+  text-align:center ;
+  margin-bottom: 10px;
+}
+
+input {
+  margin-top: auto;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+nav {
+  width: 200px;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 10px;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
 }
