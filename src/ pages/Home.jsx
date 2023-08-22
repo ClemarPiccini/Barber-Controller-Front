@@ -17,7 +17,7 @@ function Home() {
       <p>Seu sistema de gerenciamento de barbearia</p>
 
       <div>
-        <h2>Fazer Login</h2>
+        <h2>Login</h2>
         <form>
           <div>
             <label>Usuário:</label>

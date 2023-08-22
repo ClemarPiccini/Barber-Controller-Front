@@ -1,48 +1,131 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles.css';
-import { useState } from 'react';
+import axios from 'axios';
 
 function Estoque() {
   const [produtos, setProdutos] = useState([]);
+  const [nomeProduto, setNomeProduto] = useState('');
+  const [quantidadeProduto, setQuantidadeProduto] = useState('');
+  const [editingProductId, setEditingProductId] = useState(null);
+  const [editingProductName, setEditingProductName] = useState('');
+  const [editingProductQuantity, setEditingProductQuantity] = useState('');
 
-  function criarProduto(nome, quantidade) {
-    const novoProduto = {
-      nome,
-      quantidade
-    };
+  useEffect(() => {
+    buscarProdutos();
+  }, []);
 
-    setProdutos([...produtos, novoProduto]);
+  function buscarProdutos() {
+    axios.get('http://localhost:3001/produtos')
+      .then(response => {
+        setProdutos(response.data);
+      })
+      .catch(error => {
+        console.error('Erro ao buscar produtos:', error);
+      });
   }
 
-  function editarProduto(id, nome, quantidade) {
-    const produto = produtos.find(produto => produto.id === id);
+  function criarProduto(nome, quantidade) {
+    axios.post('http://localhost:3001/produtos', { nome, quantidade })
+      .then(response => {
+        const novoProduto = response.data;
+        setProdutos([...produtos, novoProduto]);
+      })
+      .catch(error => {
+        console.error('Erro ao criar produto:', error);
+      });
+  }
 
-    produto.nome = nome;
-    produto.quantidade = quantidade;
+  function iniciarEdicaoProduto(produto) {
+    setEditingProductId(produto.id);
+    setEditingProductName(produto.nome);
+    setEditingProductQuantity(produto.quantidade);
+  }
 
-    setProdutos([...produtos.filter(produto => produto.id !== id), produto]);
+  function salvarEdicaoProduto(id) {
+    axios.put(`http://localhost:3001/produtos/${id}`, {
+      nome: editingProductName,
+      quantidade: editingProductQuantity
+    })
+      .then(response => {
+        const produtoAtualizado = response.data;
+        setProdutos(prevProdutos => prevProdutos.map(p => (p.id === id ? produtoAtualizado : p)));
+        cancelarEdicaoProduto();
+      })
+      .catch(error => {
+        console.error('Erro ao editar produto:', error);
+      });
+  }
+
+  function cancelarEdicaoProduto() {
+    setEditingProductId(null);
+    setEditingProductName('');
+    setEditingProductQuantity('');
   }
 
   function excluirProduto(id) {
-    setProdutos(produtos.filter(produto => produto.id !== id));
+    axios.delete(`http://localhost:3001/produtos/${id}`)
+      .then(() => {
+        setProdutos(produtos.filter(produto => produto.id !== id));
+      })
+      .catch(error => {
+        console.error('Erro ao excluir produto:', error);
+      });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    criarProduto(nomeProduto, quantidadeProduto);
+    setNomeProduto('');
+    setQuantidadeProduto('');
   }
 
   return (
-    <div class="estoque">
+    <div className="estoque">
       <h1>Estoque</h1>
       <ul>
-        {produtos.map((produto, i) => (
-          <li key={i}>
-            <strong>{produto.nome}</strong>
-            <p>{produto.quantidade}</p>
-            <button onClick={() => editarProduto(produto.id, produto.nome, produto.quantidade)}>Editar</button>
-            <button onClick={() => excluirProduto(produto.id)}>Excluir</button>
+        {produtos.map(produto => (
+          <li key={produto.id}>
+            {editingProductId === produto.id ? (
+              <>
+                <input
+                  type="text"
+                  placeholder="Nome"
+                  value={editingProductName}
+                  onChange={e => setEditingProductName(e.target.value)}
+                />
+                <input
+                  type="number"
+                  placeholder="Quantidade"
+                  value={editingProductQuantity}
+                  onChange={e => setEditingProductQuantity(e.target.value)}
+                />
+                <button onClick={() => salvarEdicaoProduto(produto.id)}>Salvar</button>
+                <button onClick={cancelarEdicaoProduto}>Cancelar</button>
+              </>
+            ) : (
+              <>
+                <strong>{produto.nome}</strong>
+                <p>{produto.quantidade}</p>
+                <button onClick={() => iniciarEdicaoProduto(produto)}>Editar</button>
+                <button onClick={() => excluirProduto(produto.id)}>Excluir</button>
+              </>
+            )}
           </li>
         ))}
       </ul>
-      <form onSubmit={e => e.preventDefault()}>
-        <input type="text" placeholder="Nome" />
-        <input type="number" placeholder="Quantidade" />
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Nome"
+          value={nomeProduto}
+          onChange={e => setNomeProduto(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Quantidade"
+          value={quantidadeProduto}
+          onChange={e => setQuantidadeProduto(e.target.value)}
+        />
         <button type="submit">Criar</button>
       </form>
     </div>
