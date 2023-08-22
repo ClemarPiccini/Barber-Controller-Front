@@ -3,8 +3,8 @@ import './styles.css';
 
 function Dashboard() {
   return (
-    <div>
-      <h1>Painel de Controle</h1>
+    <div class="dashboard">
+      <h1 class="dashboardh1">Painel de Controle</h1>
       <nav onClick={() => {
         document.querySelector('nav').classList.toggle('open');
       }}>

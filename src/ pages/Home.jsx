@@ -12,7 +12,7 @@ function Home() {
   };
 
   return (
-    <div>
+    <div class="principal">
       <h1>Bem-vindo à Barber Controller</h1>
       <p>Seu sistema de gerenciamento de barbearia</p>
 
@@ -28,7 +28,7 @@ function Home() {
             />
           </div>
           <div>
-            <label>Senha:</label>
+            <label>Senha: </label>
             <input
               type="password"
               value={password}

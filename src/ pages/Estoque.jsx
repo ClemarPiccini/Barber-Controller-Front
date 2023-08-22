@@ -28,7 +28,7 @@ function Estoque() {
   }
 
   return (
-    <div>
+    <div class="estoque">
       <h1>Estoque</h1>
       <ul>
         {produtos.map((produto, i) => (

@@ -30,7 +30,7 @@ function Clientes() {
   }
 
   return (
-    <div>
+    <div class="clientes">
       <h1>Clientes</h1>
       <ul>
         {clientes.map((cliente, i) => (

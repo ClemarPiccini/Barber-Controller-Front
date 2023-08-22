@@ -30,7 +30,7 @@ function Agenda() {
   }
 
   return (
-    <div>
+    <div class="agenda">
       <h1>Agenda</h1>
       <ul>
         {compromissos.map((compromisso, i) => (

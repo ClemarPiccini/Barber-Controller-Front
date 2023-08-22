@@ -20,7 +20,7 @@ function Relatorio() {
   }
 
   return (
-    <div>
+    <div class="relatorio">
       <h1>Relatório</h1>
       <ul>
         <li>
