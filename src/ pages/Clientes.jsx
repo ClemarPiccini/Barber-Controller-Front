@@ -4,13 +4,22 @@ import axios from 'axios';
 
 function Clientes() {
   const [clientes, setClientes] = useState([]);
+  const [nomeCliente, setNomeCliente] = useState('');
+  const [telefoneCliente, setTelefoneCliente] = useState('');
+  const [emailCliente, setEmailCliente] = useState('');
+  const [editingClientId, setEditingClientId] = useState(null);
+  const [editingClientName, setEditingClientName] = useState('');
+  const [editingClientPhone, setEditingClientPhone] = useState('');
+  const [editingClientEmail, setEditingClientEmail] = useState('');
+  const [page, setPage] = useState(1);
+  const [perPage] = useState(6); // Número de clientes por página
 
   useEffect(() => {
     buscarClientes();
-  }, []);
+  }, [page]);
 
   function buscarClientes() {
-    axios.get('http://localhost:3001/clientes')  // Substitua pela URL correta da sua API
+    axios.get(`http://localhost:3001/clientes?_page=${page}&_limit=${perPage}`)
       .then(response => {
         setClientes(response.data);
       })
@@ -20,7 +29,7 @@ function Clientes() {
   }
 
   function criarCliente(nome, telefone, email) {
-    axios.post('http://localhost:3001/clientes', { nome, telefone, email })  // Substitua pela URL correta da sua API
+    axios.post('http://localhost:3001/clientes', { nome, telefone, email })
       .then(response => {
         const novoCliente = response.data;
         setClientes([...clientes, novoCliente]);
@@ -30,19 +39,38 @@ function Clientes() {
       });
   }
 
-  function editarCliente(id, nome, telefone, email) {
-    axios.put(`http://localhost:3001/clientes/${id}`, { nome, telefone, email })  // Substitua pela URL correta da sua API
+  function iniciarEdicaoCliente(cliente) {
+    setEditingClientId(cliente.id);
+    setEditingClientName(cliente.nome);
+    setEditingClientPhone(cliente.telefone);
+    setEditingClientEmail(cliente.email);
+  }
+
+  function salvarEdicaoCliente(id) {
+    axios.put(`http://localhost:3001/clientes/${id}`, {
+      nome: editingClientName,
+      telefone: editingClientPhone,
+      email: editingClientEmail
+    })
       .then(response => {
         const clienteAtualizado = response.data;
         setClientes(prevClientes => prevClientes.map(c => (c.id === id ? clienteAtualizado : c)));
+        cancelarEdicaoCliente();
       })
       .catch(error => {
         console.error('Erro ao editar cliente:', error);
       });
   }
 
+  function cancelarEdicaoCliente() {
+    setEditingClientId(null);
+    setEditingClientName('');
+    setEditingClientPhone('');
+    setEditingClientEmail('');
+  }
+
   function excluirCliente(id) {
-    axios.delete(`http://localhost:3001/clientes/${id}`)  // Substitua pela URL correta da sua API
+    axios.delete(`http://localhost:3001/clientes/${id}`)
       .then(() => {
         setClientes(clientes.filter(cliente => cliente.id !== id));
       })
@@ -51,28 +79,79 @@ function Clientes() {
       });
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    criarCliente(nomeCliente, telefoneCliente, emailCliente);
+    setNomeCliente('');
+    setTelefoneCliente('');
+    setEmailCliente('');
+  }
+
   return (
-    <div class="clientes">
+    <div className="clientes">
       <h1>Clientes</h1>
       <ul>
-        {clientes.map((cliente, i) => (
-          <li key={i}>
-            <strong>{cliente.nome}</strong>
-            <p>{cliente.telefone}</p>
-            <p>{cliente.email}</p>
-            <button onClick={() => editarCliente(cliente.id, cliente.nome, cliente.telefone, cliente.email)}>Editar</button>
-            <button onClick={() => excluirCliente(cliente.id)}>Excluir</button>
+        {clientes.map(cliente => (
+          <li key={cliente.id}>
+            {editingClientId === cliente.id ? (
+              <>
+                <input
+                  type="text"
+                  placeholder="Nome"
+                  value={editingClientName}
+                  onChange={e => setEditingClientName(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Telefone"
+                  value={editingClientPhone}
+                  onChange={e => setEditingClientPhone(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Email"
+                  value={editingClientEmail}
+                  onChange={e => setEditingClientEmail(e.target.value)}
+                />
+                <button onClick={() => salvarEdicaoCliente(cliente.id)}>Salvar</button>
+                <button onClick={cancelarEdicaoCliente}>Cancelar</button>
+              </>
+            ) : (
+              <>
+                <strong>{cliente.nome}</strong>
+                <p>{cliente.telefone}</p>
+                <p>{cliente.email}</p>
+                <button onClick={() => iniciarEdicaoCliente(cliente)}>Editar</button>
+                <button onClick={() => excluirCliente(cliente.id)}>Excluir</button>
+              </>
+            )}
           </li>
         ))}
       </ul>
-      <form onSubmit={e => e.preventDefault()}>
-        <input type="text" placeholder="Nome" />
-        <input type="text" placeholder="Telefone" />
-        <input type="text" placeholder="Email" />
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Nome"
+          value={nomeCliente}
+          onChange={e => setNomeCliente(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Telefone"
+          value={telefoneCliente}
+          onChange={e => setTelefoneCliente(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Email"
+          value={emailCliente}
+          onChange={e => setEmailCliente(e.target.value)}
+        />
         <button type="submit">Criar</button>
       </form>
     </div>
   );
 }
+
 
 export default Clientes;

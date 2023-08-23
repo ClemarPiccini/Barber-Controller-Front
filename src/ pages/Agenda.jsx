@@ -89,83 +89,91 @@ function Agenda() {
     criarCompromisso();
   }
 
-  return (
-    <div className="agenda">
-      <h1>Agenda</h1>
-      <ul>
-        {compromissos.map(compromisso => (
-          <li key={compromisso.id}>
-            {editingCompromissoId === compromisso.id ? (
-              <>
-                <input
-                  type="text"
-                  placeholder="Serviço"
-                  value={editingServico}
-                  onChange={e => setEditingServico(e.target.value)}
-                />
-                <input
-                  type="date"
-                  placeholder="Data"
-                  value={editingData}
-                  onChange={e => setEditingData(e.target.value)}
-                />
-                <input
-                  type="time"
-                  placeholder="Hora"
-                  value={editingHorario}
-                  onChange={e => setEditingHorario(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Cliente"
-                  value={editingCliente}
-                  onChange={e => setEditingCliente(e.target.value)}
-                />
-                <button onClick={() => salvarEdicaoCompromisso(compromisso.id)}>Salvar</button>
-                <button onClick={cancelarEdicaoCompromisso}>Cancelar</button>
-              </>
-            ) : (
-              <>
-                <strong>{compromisso.servico}</strong>
-                <p>{compromisso.data}</p>
-                <p>{compromisso.horario}</p>
-                <p>{compromisso.cliente}</p>
-                <button onClick={() => iniciarEdicaoCompromisso(compromisso)}>Editar</button>
-                <button onClick={() => excluirCompromisso(compromisso.id)}>Excluir</button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Serviço"
-          value={servico}
-          onChange={e => setServico(e.target.value)}
-        />
-        <input
-          type="date"
-          placeholder="Data"
-          value={data}
-          onChange={e => setData(e.target.value)}
-        />
-        <input
-          type="time"
-          placeholder="Hora"
-          value={horario}
-          onChange={e => setHorario(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Cliente"
-          value={cliente}
-          onChange={e => setCliente(e.target.value)}
-        />
-        <button type="submit">Criar</button>
-      </form>
-    </div>
-  );
-}
-
-export default Agenda;
+  
+    function renderFormularioCriacao() {
+      return (
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Serviço"
+            value={servico}
+            onChange={e => setServico(e.target.value)}
+          />
+          <input
+            type="date"
+            placeholder="Data"
+            value={data}
+            onChange={e => setData(e.target.value)}
+          />
+          <input
+            type="time"
+            placeholder="Hora"
+            value={horario}
+            onChange={e => setHorario(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Cliente"
+            value={cliente}
+            onChange={e => setCliente(e.target.value)}
+          />
+          <button type="submit">Criar</button>
+        </form>
+      );
+    }
+  
+    return (
+      <div className="agenda">
+        <h1>Agenda Eletrônica</h1>
+        {renderFormularioCriacao()}
+  
+        <ul>
+          {compromissos.map(compromisso => (
+            <li key={compromisso.id}>
+              {editingCompromissoId === compromisso.id ? (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Serviço"
+                    value={editingServico}
+                    onChange={e => setEditingServico(e.target.value)}
+                  />
+                  <input
+                    type="date"
+                    placeholder="Data"
+                    value={editingData}
+                    onChange={e => setEditingData(e.target.value)}
+                  />
+                  <input
+                    type="time"
+                    placeholder="Hora"
+                    value={editingHorario}
+                    onChange={e => setEditingHorario(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Cliente"
+                    value={editingCliente}
+                    onChange={e => setEditingCliente(e.target.value)}
+                  />
+                  <button onClick={() => salvarEdicaoCompromisso(compromisso.id)}>Salvar</button>
+                  <button onClick={cancelarEdicaoCompromisso}>Cancelar</button>
+                </>
+              ) : (
+                <>
+                  <strong>{compromisso.servico}</strong>
+                  <p>{compromisso.data}</p>
+                  <p>{compromisso.horario}</p>
+                  <p>{compromisso.cliente}</p>
+                  <button onClick={() => iniciarEdicaoCompromisso(compromisso)}>Editar</button>
+                  <button onClick={() => excluirCompromisso(compromisso.id)}>Excluir</button>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+  
+  export default Agenda;

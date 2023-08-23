@@ -85,7 +85,7 @@ a {
 }
 
 .agenda{
-  margin-top: 25vh;
+  margin-top: auto;
   background-color: rgba(255, 255, 255, 0.5);
   color: #000000;
   text-align:center;
@@ -98,22 +98,16 @@ form {
 }
 
 form input, form button {
-  margin: 5px; /* Adicionar um espaço entre os elementos */
+  margin: 1px; /* Adicionar um espaço entre os elementos */
 }
 
 .estoque{
-  margin-top: 25vh;
+  margin-top: auto;
   background-color: rgba(255, 255, 255, 0.5);
   color: #000000;
   text-align:center;
 }
 
-.clientes{
-  margin-top: 25vh;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #000000;
-  text-align:center;
-}
 
 .relatorio{
   margin-top: 25vh;
@@ -136,6 +130,43 @@ form input, form button {
 
 @font-face {
   font-family: 'MinhaFontePersonalizada';
-  src: url('/home/senai/Barber-Controller-Front/src/ pages/Rye-Regular.woff') format('woff'),
-       url('/home/senai/Barber-Controller-Front/src/ pages/Rye-Regular.woff') format('woff');
+  src: url('/home/senai/Barber-Controller-Front/src/ pages/Rye-Regular.woff') format('woff');     
+}
+
+
+.clientes {
+  margin-top: auto;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #000000;
+  text-align: center;
+}
+
+.clientes ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.clientes li {
+  margin: 5px 0;
+}
+
+.clientes strong {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.clientes p {
+  margin: 5px 0;
+}
+
+input[type="text"] {
+  padding: auto;
+  margin-bottom: 5px;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
