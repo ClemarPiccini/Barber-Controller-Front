@@ -1,5 +1,4 @@
 body {
-  
   font-family: 'MinhaFontePersonalizada', sans-serif;
   font-size: 16px;
   display: flex;
@@ -75,11 +74,10 @@ a {
   margin-top: 25vh;
   color: #241f1f;
   text-align:center;
-  
 }
 
 .dashboardh1{
-  color: #c4bbbb;
+  color: #070707;
   font-size: 23px;
   margin-top: 0;
 }
@@ -108,7 +106,6 @@ form input, form button {
   text-align:center;
 }
 
-
 .relatorio{
   margin-top: 25vh;
   background-color: rgba(255, 255, 255, 0.5);
@@ -132,7 +129,6 @@ form input, form button {
   font-family: 'MinhaFontePersonalizada';
   src: url('/home/senai/Barber-Controller-Front/src/ pages/Rye-Regular.woff') format('woff');     
 }
-
 
 .clientes {
   margin-top: auto;
