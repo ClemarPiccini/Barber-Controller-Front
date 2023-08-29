@@ -5,26 +5,30 @@ import { Navigate } from 'react-router-dom';
 function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [redirectToDashboard, setRedirectToDashboard] = useState(false); 
+  const [redirectToDashboard, setRedirectToDashboard] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:3001/login', {
-        email: username, 
+        email: username,
         senha: password,
       });
 
       // Verificar a resposta do servidor e tomar as ações necessárias
       if (response.data.token) {
         console.log('Login bem-sucedido');
-        setRedirectToDashboard(true); 
+        setRedirectToDashboard(true);
       } else {
         console.log('Credenciais inválidas');
+        setErrorMessage('Usuário ou senha incorretos');
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
+      setErrorMessage('Erro ao fazer login');
     }
   };
+
   if (redirectToDashboard) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -36,6 +40,7 @@ function Home() {
 
       <div>
         <h2>Login</h2>
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <form>
           <div>
             <label>Usuário:</label>
