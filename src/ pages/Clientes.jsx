@@ -6,14 +6,12 @@ function Clientes() {
   const [clientes, setClientes] = useState([]);
   const [nomeCliente, setNomeCliente] = useState('');
   const [telefoneCliente, setTelefoneCliente] = useState('');
-  const [emailCliente, setEmailCliente] = useState('');
   const [editingClientId, setEditingClientId] = useState(null);
   const [editingClientName, setEditingClientName] = useState('');
   const [editingClientPhone, setEditingClientPhone] = useState('');
-  const [editingClientEmail, setEditingClientEmail] = useState('');
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [perPage] = useState(6); // Número de clientes por página
-
   useEffect(() => {
     buscarClientes();
   }, [page]);
@@ -22,12 +20,13 @@ function Clientes() {
     axios.get(`http://localhost:3001/clientes?_page=${page}&_limit=${perPage}`)
       .then(response => {
         setClientes(response.data);
+        const totalCount = parseInt(response.headers['x-total-count']);
+        setTotalPages(Math.ceil(totalCount / perPage));
       })
       .catch(error => {
         console.error('Erro ao buscar clientes:', error);
       });
   }
-
   function criarCliente(nome, telefone, email) {
     axios.post('http://localhost:3001/clientes', { nome, telefone, email })
       .then(response => {
@@ -43,14 +42,12 @@ function Clientes() {
     setEditingClientId(cliente.id);
     setEditingClientName(cliente.nome);
     setEditingClientPhone(cliente.telefone);
-    setEditingClientEmail(cliente.email);
   }
 
   function salvarEdicaoCliente(id) {
     axios.put(`http://localhost:3001/clientes/${id}`, {
       nome: editingClientName,
-      telefone: editingClientPhone,
-      email: editingClientEmail
+      telefone: editingClientPhone
     })
       .then(response => {
         const clienteAtualizado = response.data;
@@ -66,7 +63,6 @@ function Clientes() {
     setEditingClientId(null);
     setEditingClientName('');
     setEditingClientPhone('');
-    setEditingClientEmail('');
   }
 
   function excluirCliente(id) {
@@ -81,10 +77,9 @@ function Clientes() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    criarCliente(nomeCliente, telefoneCliente, emailCliente);
+    criarCliente(nomeCliente, telefoneCliente);
     setNomeCliente('');
     setTelefoneCliente('');
-    setEmailCliente('');
   }
 
   return (
@@ -107,12 +102,6 @@ function Clientes() {
                   value={editingClientPhone}
                   onChange={e => setEditingClientPhone(e.target.value)}
                 />
-                <input
-                  type="text"
-                  placeholder="Email"
-                  value={editingClientEmail}
-                  onChange={e => setEditingClientEmail(e.target.value)}
-                />
                 <button onClick={() => salvarEdicaoCliente(cliente.id)}>Salvar</button>
                 <button onClick={cancelarEdicaoCliente}>Cancelar</button>
               </>
@@ -120,7 +109,6 @@ function Clientes() {
               <>
                 <strong>{cliente.nome}</strong>
                 <p>{cliente.telefone}</p>
-                <p>{cliente.email}</p>
                 <button onClick={() => iniciarEdicaoCliente(cliente)}>Editar</button>
                 <button onClick={() => excluirCliente(cliente.id)}>Excluir</button>
               </>
@@ -128,6 +116,11 @@ function Clientes() {
           </li>
         ))}
       </ul>
+      <div className="pagination">
+        {page > 1 && <button onClick={() => setPage(page - 1)}>Anterior</button>}
+        <span>Página {page} de {totalPages}</span>
+        {page < totalPages && <button onClick={() => setPage(page + 1)}>Próxima</button>}
+      </div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -141,17 +134,10 @@ function Clientes() {
           value={telefoneCliente}
           onChange={e => setTelefoneCliente(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Email"
-          value={emailCliente}
-          onChange={e => setEmailCliente(e.target.value)}
-        />
         <button type="submit">Criar</button>
       </form>
     </div>
   );
 }
-
 
 export default Clientes;

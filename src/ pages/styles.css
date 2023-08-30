@@ -4,7 +4,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/home/senai/Barber-Controller-Front/src/ferramentas-de-salao-de-beleza-de-moldura-vintage-em-uma-mesa-de-madeira-em-empregos-e-conceito-de-carreira.jpg");
+  background-image: url("C:\Users\Junior\Documents\GitHub\Barber-Controller-Front\src\ferramentas-de-salao-de-beleza-de-moldura-vintage-em-uma-mesa-de-madeira-em-empregos-e-conceito-de-carreira.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position:0cap;
@@ -13,28 +13,11 @@ body {
 }
 
 .App{
-  
   width: 1000px;
   border: 1px solid black;
   display: flex;
   text-align: center;
   justify-content: center;
-}
-h1 {
-  color: #000000;
-  font-size: 24px;
-  margin-top: 0;
-}
-
-h2{
-  text-align:center ;
-  color: #000000;
-}
-
-p {
-  text-align:center ;
-  margin-bottom: 10px;
-  color: #000000;
 }
 
 input {
@@ -50,12 +33,6 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
-nav {
-  width: 200px;
-  height: 100%;
-  background-color: #fff;
-  border-radius: 5px;
-}
 
 ul {
   list-style-type: none;
@@ -67,10 +44,11 @@ ul {
 
 li {
   padding: 10px;
+  text-align: center;
 }
 
 a {
-  color: #333;
+  color: #000000;
   text-decoration: none;
 }
 
@@ -79,18 +57,6 @@ a {
   background-color: rgba(255, 255, 255, 0.5);
   color: #000000;
   text-align:center;
-}
-
-.dashboard{
-  margin-top: 25vh;
-  color: #241f1f;
-  text-align:center;
-}
-
-.dashboardh1{
-  color: #070707;
-  font-size: 23px;
-  margin-top: 0;
 }
 
 .agenda{
@@ -110,6 +76,10 @@ form input, form button {
   margin: 1px; /* Adicionar um espaço entre os elementos */
 }
 
+.dashboard{
+  background-color: rgba(255, 255, 255, 0.5);
+  
+}
 .estoque{
   margin: 0;
   padding: 0;
@@ -142,7 +112,7 @@ form input, form button {
 
 @font-face {
   font-family: 'MinhaFontePersonalizada';
-  src: url('/home/senai/Barber-Controller-Front/src/ pages/Rye-Regular.woff') format('woff');     
+  src: url('C:\Users\Junior\Documents\GitHub\Barber-Controller-Front\src\ pages\Rye-Regular.woff') format('woff');
 }
 
 .clientes {

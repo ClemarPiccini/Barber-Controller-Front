@@ -87,6 +87,35 @@ function Estoque() {
     setIsBeverageProduto(false); // Definir como falso
   }
 
+  
+  function handleIncreaseQuantity(id) {
+    // Lógica para aumentar a quantidade do produto/bebida com o ID especificado
+    const updatedProducts = produtos.map(p => {
+      if (p.id === id) {
+        return {
+          ...p,
+          quantidade: p.quantidade + 1,
+        };
+      }
+      return p;
+    });
+    setProdutos(updatedProducts);
+  }
+
+  function handleDecreaseQuantity(id) {
+    // Lógica para diminuir a quantidade do produto/bebida com o ID especificado
+    const updatedProducts = produtos.map(p => {
+      if (p.id === id && p.quantidade > 0) {
+        return {
+          ...p,
+          quantidade: p.quantidade - 1,
+        };
+      }
+      return p;
+    });
+    setProdutos(updatedProducts);
+  }
+
   return (
     <div className="estoque">
       <h1>Estoque</h1>
@@ -105,8 +134,8 @@ function Estoque() {
                   />
                   <input
                     type="number"
-                    placeholder="Quantidade"
-                    value={editingProductQuantity}
+                placeholder="Quantidade"
+                        value={editingProductQuantity}
                     onChange={e => setEditingProductQuantity(e.target.value)}
                   />
                   <input
@@ -124,6 +153,8 @@ function Estoque() {
                   <p>{produto.isBeverage ? 'Bebida' : 'Não Bebida'}</p>
                   <button onClick={() => iniciarEdicaoProduto(produto)}>Editar</button>
                   <button onClick={() => excluirProduto(produto.id)}>Excluir</button>
+                  <button onClick={() => handleIncreaseQuantity(produto.id)}>+</button>
+                  <button onClick={() => handleDecreaseQuantity(produto.id)}>-</button>
                 </>
               )}
             </li>
@@ -165,6 +196,8 @@ function Estoque() {
             <p>{produto.isBeverage ? 'Bebida' : 'Não Bebida'}</p>
             <button onClick={() => iniciarEdicaoProduto(produto)}>Editar</button>
             <button onClick={() => excluirProduto(produto.id)}>Excluir</button>
+            <button onClick={() => handleIncreaseQuantity(produto.id)}>+</button>
+            <button onClick={() => handleDecreaseQuantity(produto.id)}>-</button>
                 </>
               )}
             </li>
