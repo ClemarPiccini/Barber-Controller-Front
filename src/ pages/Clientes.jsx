@@ -9,26 +9,27 @@ function Clientes() {
   const [editingClientId, setEditingClientId] = useState(null);
   const [editingClientName, setEditingClientName] = useState('');
   const [editingClientPhone, setEditingClientPhone] = useState('');
-  const [page, setPage] = useState(1);
+  const [pageNumber, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [perPage] = useState(6); // Número de clientes por página
   useEffect(() => {
     buscarClientes();
-  }, [page]);
+  }, [pageNumber]);
 
   function buscarClientes() {
-    axios.get(`http://localhost:3001/clientes?_page=${page}&_limit=${perPage}`)
+    axios.get(`http://localhost:3001/clientes/paginados?_page=${pageNumber}&_limit=${perPage}`)
       .then(response => {
-        setClientes(response.data);
+        setClientes(response.data.clientes);
         const totalCount = parseInt(response.headers['x-total-count']);
         setTotalPages(Math.ceil(totalCount / perPage));
+        console.log(pageNumber, perPage, totalCount, totalPages)
       })
       .catch(error => {
         console.error('Erro ao buscar clientes:', error);
       });
   }
-  function criarCliente(nome, telefone, email) {
-    axios.post('http://localhost:3001/clientes', { nome, telefone, email })
+  function criarCliente(nome, telefone) {
+    axios.post('http://localhost:3001/clientes', { nome, telefone })
       .then(response => {
         const novoCliente = response.data;
         setClientes([...clientes, novoCliente]);
@@ -117,9 +118,9 @@ function Clientes() {
         ))}
       </ul>
       <div className="pagination">
-        {page > 1 && <button onClick={() => setPage(page - 1)}>Anterior</button>}
-        <span>Página {page} de {totalPages}</span>
-        {page < totalPages && <button onClick={() => setPage(page + 1)}>Próxima</button>}
+        {pageNumber > 1 && <button onClick={() => setPage(pageNumber - 1)}>Anterior</button>}
+        <span>Página {pageNumber} de {totalPages}</span>
+        {pageNumber < totalPages && <button onClick={() => setPage(pageNumber + 1)}>Próxima</button>}
       </div>
       <form onSubmit={handleSubmit}>
         <input
