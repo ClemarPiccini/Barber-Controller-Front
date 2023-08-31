@@ -6,10 +6,12 @@ function Estoque() {
   const [produtos, setProdutos] = useState([]);
   const [nomeProduto, setNomeProduto] = useState('');
   const [quantidadeProduto, setQuantidadeProduto] = useState('');
+  const [valorProduto, setValorProduto] = useState('');
   const [isBeverageProduto, setIsBeverageProduto] = useState(false); // Inicializado como falso
   const [editingProductId, setEditingProductId] = useState(null);
   const [editingProductName, setEditingProductName] = useState('');
   const [editingProductQuantity, setEditingProductQuantity] = useState('');
+  const [editingProductValor, setEditingProductValor] = useState('');
   const [editingProductisBeverage, setEditingProductisBeverage] = useState(false); // Inicializado como falso
   const bebidaProdutos = produtos.filter(produto => produto.isBeverage);
   const naoBebidaProdutos = produtos.filter(produto => !produto.isBeverage);
@@ -28,8 +30,8 @@ function Estoque() {
       });
   }
 
-  function criarProduto(nome, quantidade, isBeverage) {
-    axios.post('http://localhost:3001/produtos', { nome, quantidade, isBeverage })
+  function criarProduto(nome, quantidade, isBeverage, valor) {
+    axios.post('http://localhost:3001/produtos', { nome, quantidade, isBeverage, valor })
       .then(response => {
         const novoProduto = response.data;
         setProdutos([...produtos, novoProduto]);
@@ -44,13 +46,15 @@ function Estoque() {
     setEditingProductName(produto.nome);
     setEditingProductQuantity(produto.quantidade);
     setEditingProductisBeverage(produto.isBeverage);
+    setEditingProductValor(produto.valor);
   }
 
   function salvarEdicaoProduto(id) {
     axios.put(`http://localhost:3001/produtos/${id}`, {
       nome: editingProductName,
       quantidade: editingProductQuantity,
-      isBeverage: editingProductisBeverage
+      isBeverage: editingProductisBeverage,
+      valor: editingProductValor
     })
       .then(response => {
         const produtoAtualizado = response.data;
@@ -66,6 +70,7 @@ function Estoque() {
     setEditingProductId(null);
     setEditingProductName('');
     setEditingProductQuantity('');
+    setEditingProductValor('');
     setEditingProductisBeverage(false); // Definir como falso
   }
 
@@ -81,9 +86,10 @@ function Estoque() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    criarProduto(nomeProduto, quantidadeProduto, isBeverageProduto);
+    criarProduto(nomeProduto, quantidadeProduto, isBeverageProduto, valorProduto);
     setNomeProduto('');
     setQuantidadeProduto('');
+    setValorProduto('');
     setIsBeverageProduto(false); // Definir como falso
   }
 
@@ -139,6 +145,12 @@ function Estoque() {
                     onChange={e => setEditingProductQuantity(e.target.value)}
                   />
                   <input
+                    type="number"
+                placeholder="Valor"
+                        value={editingProductValor}
+                    onChange={e => setEditingProductValor(e.target.value)}
+                  />
+                  <input
                     type="checkbox" // Use um checkbox para valores booleanos
                     checked={editingProductisBeverage}
                     onChange={e => setEditingProductisBeverage(e.target.checked)}
@@ -150,7 +162,8 @@ function Estoque() {
                 <>
                   <strong>{produto.nome}</strong>
                   <p>{produto.quantidade}</p>
-                  <p>{produto.isBeverage ? 'Bebida' : 'Não Bebida'}</p>
+                  <p>{produto.valor}</p>
+                  <p>{produto.isBeverage ? 'Bebida' : 'Produto'}</p>
                   <button onClick={() => iniciarEdicaoProduto(produto)}>Editar</button>
                   <button onClick={() => excluirProduto(produto.id)}>Excluir</button>
                   <button onClick={() => handleIncreaseQuantity(produto.id)}>+</button>
@@ -182,6 +195,12 @@ function Estoque() {
               onChange={e => setEditingProductQuantity(e.target.value)}
             />
             <input
+              type="number"
+              placeholder="Valor"
+              value={editingProductValor}
+              onChange={e => setEditingProductValor(e.target.value)}
+            />
+            <input
               type="checkbox" // Use um checkbox para valores booleanos
               checked={editingProductisBeverage}
               onChange={e => setEditingProductisBeverage(e.target.checked)}
@@ -193,7 +212,8 @@ function Estoque() {
           <>
             <strong>{produto.nome}</strong>
             <p>{produto.quantidade}</p>
-            <p>{produto.isBeverage ? 'Bebida' : 'Não Bebida'}</p>
+            <p>{produto.valor}</p>
+            <p>{produto.isBeverage ? 'Bebida' : 'Produto'}</p>
             <button onClick={() => iniciarEdicaoProduto(produto)}>Editar</button>
             <button onClick={() => excluirProduto(produto.id)}>Excluir</button>
             <button onClick={() => handleIncreaseQuantity(produto.id)}>+</button>
@@ -215,6 +235,12 @@ function Estoque() {
             placeholder="Quantidade"
             value={quantidadeProduto}
             onChange={e => setQuantidadeProduto(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Valor"
+            value={valorProduto}
+            onChange={e => setEditingProductValor(e.target.value)}
           />
           <input
             type="checkbox" // Use um checkbox para valores booleanos

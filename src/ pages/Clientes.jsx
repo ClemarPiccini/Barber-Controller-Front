@@ -10,7 +10,7 @@ function Clientes() {
   const [editingClientName, setEditingClientName] = useState('');
   const [editingClientPhone, setEditingClientPhone] = useState('');
   const [pageNumber, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(2);
   const [perPage] = useState(6); // Número de clientes por página
   useEffect(() => {
     buscarClientes();

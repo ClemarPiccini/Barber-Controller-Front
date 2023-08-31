@@ -4,10 +4,10 @@ import axios from 'axios';
 
 function Agenda() {
   const [compromissos, setCompromissos] = useState([]);
-  const [servico, setServico] = useState('');
+  const [servicoNome, setServico] = useState('');
   const [data, setData] = useState('');
   const [horario, setHorario] = useState('');
-  const [cliente, setCliente] = useState('');
+  const [clienteNome, setCliente] = useState('');
   const [editingCompromissoId, setEditingCompromissoId] = useState(null);
   const [editingServico, setEditingServico] = useState('');
   const [editingData, setEditingData] = useState('');
@@ -29,7 +29,7 @@ function Agenda() {
   }
 
   function criarCompromisso() {
-    axios.post('http://localhost:3001/horarios', { servico, data, horario, cliente })
+    axios.post('http://localhost:3001/horarios', { servicoNome, data, horario, clienteNome })
       .then(response => {
         const novoCompromisso = response.data;
         setCompromissos([...compromissos, novoCompromisso]);
@@ -42,18 +42,18 @@ function Agenda() {
 
   function iniciarEdicaoCompromisso(compromisso) {
     setEditingCompromissoId(compromisso.id);
-    setEditingServico(compromisso.servico);
+    setEditingServico(compromisso.servicoNome);
     setEditingData(compromisso.data);
     setEditingHorario(compromisso.horario);
-    setEditingCliente(compromisso.cliente);
+    setEditingCliente(compromisso.clienteNome);
   }
 
   function salvarEdicaoCompromisso(id) {
     axios.put(`http://localhost:3001/horarios/${id}`, {
-      servico: editingServico,
+      servicoNome: editingServico,
       data: editingData,
       horario: editingHorario,
-      cliente: editingCliente
+      clienteNome: editingCliente
     })
       .then(response => {
         const compromissoAtualizado = response.data;
@@ -96,7 +96,7 @@ function Agenda() {
           <input
             type="text"
             placeholder="Serviço"
-            value={servico}
+            value={servicoNome}
             onChange={e => setServico(e.target.value)}
           />
           <input
@@ -114,7 +114,7 @@ function Agenda() {
           <input
             type="text"
             placeholder="Cliente"
-            value={cliente}
+            value={clienteNome}
             onChange={e => setCliente(e.target.value)}
           />
           <button type="submit">Criar</button>
@@ -161,10 +161,10 @@ function Agenda() {
                 </>
               ) : (
                 <>
-                  <strong>{compromisso.servico}</strong>
+                  <strong>{compromisso.servicoNome}</strong>
                   <p>{compromisso.data}</p>
                   <p>{compromisso.horario}</p>
-                  <p>{compromisso.cliente}</p>
+                  <p>{compromisso.clienteNome}</p>
                   <button onClick={() => iniciarEdicaoCompromisso(compromisso)}>Editar</button>
                   <button onClick={() => excluirCompromisso(compromisso.id)}>Excluir</button>
                 </>
