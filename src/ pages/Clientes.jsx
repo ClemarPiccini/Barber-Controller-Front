@@ -9,25 +9,40 @@ function Clientes() {
   const [editingClientId, setEditingClientId] = useState(null);
   const [editingClientName, setEditingClientName] = useState('');
   const [editingClientPhone, setEditingClientPhone] = useState('');
-  const [pageNumber, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(2);
-  const [perPage] = useState(6); // Número de clientes por página
-  useEffect(() => {
-    buscarClientes();
-  }, [pageNumber]);
+  const [loading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
 
-  function buscarClientes() {
-    axios.get(`http://localhost:3001/clientes/paginados?_page=${pageNumber}&_limit=${perPage}`)
+  const loadMoreClients = () => {
+    if (loading || loadingMore) return;
+
+    setLoadingMore(true);
+
+    axios.get(`http://localhost:3001/clientes`)
       .then(response => {
-        setClientes(response.data.clientes);
-        const totalCount = parseInt(response.headers['x-total-count']);
-        setTotalPages(Math.ceil(totalCount / perPage));
-        console.log(pageNumber, perPage, totalCount, totalPages)
+        const newClients = response.data;
+        setClientes((prevClients) => [...prevClients, ...newClients]);
+        setLoadingMore(false);
       })
       .catch(error => {
         console.error('Erro ao buscar clientes:', error);
+        setLoadingMore(false);
       });
-  }
+  };
+
+  useEffect(() => {
+    loadMoreClients(); // Carregar clientes iniciais
+  }, []);
+
+  window.addEventListener('scroll', () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      loadMoreClients(); // Carregar mais clientes quando o usuário rolar até o final
+    }
+  });
+  
+
   function criarCliente(nome, telefone) {
     axios.post('http://localhost:3001/clientes', { nome, telefone })
       .then(response => {
@@ -117,11 +132,6 @@ function Clientes() {
           </li>
         ))}
       </ul>
-      <div className="pagination">
-        {pageNumber > 1 && <button onClick={() => setPage(pageNumber - 1)}>Anterior</button>}
-        <span>Página {pageNumber} de {totalPages}</span>
-        {pageNumber < totalPages && <button onClick={() => setPage(pageNumber + 1)}>Próxima</button>}
-      </div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

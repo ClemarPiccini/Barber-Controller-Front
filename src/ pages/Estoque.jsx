@@ -146,8 +146,8 @@ function Estoque() {
                   />
                   <input
                     type="number"
-                placeholder="Valor"
-                        value={editingProductValor}
+                    placeholder="Valor"
+                    value={editingProductValor}
                     onChange={e => setEditingProductValor(e.target.value)}
                   />
                   <input
@@ -197,7 +197,7 @@ function Estoque() {
             <input
               type="number"
               placeholder="Valor"
-              value={editingProductValor}
+              value={valorProduto}
               onChange={e => setEditingProductValor(e.target.value)}
             />
             <input
@@ -240,7 +240,7 @@ function Estoque() {
             type="number"
             placeholder="Valor"
             value={valorProduto}
-            onChange={e => setEditingProductValor(e.target.value)}
+            onChange={e => setValorProduto(e.target.value)}
           />
           <input
             type="checkbox" // Use um checkbox para valores booleanos

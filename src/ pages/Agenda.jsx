@@ -93,12 +93,15 @@ function Agenda() {
     function renderFormularioCriacao() {
       return (
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Serviço"
+          <select
             value={servicoNome}
             onChange={e => setServico(e.target.value)}
-          />
+          >
+          <option value="Barba">Barba</option>
+          <option value="Cabelo">Cabelo</option>
+          <option value="Sobrancelha">Sobrancelha</option>
+          <option value="Cabelo e Barba">Cabelo e Barba</option>
+          </select>
           <input
             type="date"
             placeholder="Data"
@@ -132,12 +135,15 @@ function Agenda() {
             <li key={compromisso.id}>
               {editingCompromissoId === compromisso.id ? (
                 <>
-                  <input
-                    type="text"
-                    placeholder="Serviço"
+                  <select
                     value={editingServico}
                     onChange={e => setEditingServico(e.target.value)}
-                  />
+                  >   
+                  <option value="Barba">Barba</option>
+                  <option value="Cabelo">Cabelo</option>
+                  <option value="Sobrancelha">Sobrancelha</option>
+                  <option value="Cabelo e Barba">Cabelo e Barba</option>
+                  </select>
                   <input
                     type="date"
                     placeholder="Data"

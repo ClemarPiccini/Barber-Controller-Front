@@ -122,11 +122,18 @@ form input, form button {
   background-color: rgba(255, 255, 255, 0.5);
   color: #000000;
   text-align: center;
+  overflow-y: scroll; /* Adicionar rolagem vertical */
+  max-height: 400px; /* Altura máxima da lista com rolagem */
+  width: 300px; /* Largura da lista de contatos */
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
 }
 
 .clientes ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  display: block;
 }
 
 .clientes li {
@@ -135,21 +142,12 @@ form input, form button {
 
 .clientes strong {
   font-size: 18px;
-  display: block;
-  margin-bottom: 5px;
+  display: flex;
+  margin-bottom: 5px; 
 }
 
 .clientes p {
   margin: 5px 0;
-}
-
-.pagination {
-  display: inline-block;
-  padding: 0;
-  margin: 0;
-  color: black;
-  padding: 8px 16px;
-  text-decoration: none;
 }
 
 .span {
@@ -164,4 +162,25 @@ input[type="text"] {
 
 button:hover {
   background-color: #0056b3;
+}
+
+.cleinte load-more-button {
+  display: block;
+  margin: 20px auto;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.cliente load-more-button:hover {
+  background-color: #0056b3;
+}
+
+.clientes form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
